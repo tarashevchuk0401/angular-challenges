@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   model,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
   imports: [FormsModule],
   selector: 'app-root',
   template: `
@@ -19,15 +21,15 @@ import { FormsModule } from '@angular/forms';
       <p>Extras:</p>
 
       <div>
-        <input type="checkbox" [(ngModel)]="drive" />
+        <input type="checkbox" [(ngModel)]="drive()" />
         +500 GB drive-space
       </div>
       <div>
-        <input type="checkbox" [(ngModel)]="ram" />
+        <input type="checkbox" [(ngModel)]="ram()" />
         +4 GB RAM
       </div>
       <div>
-        <input type="checkbox" [(ngModel)]="gpu" />
+        <input type="checkbox" [(ngModel)]="gpu()" />
         Better GPU
       </div>
     </section>
@@ -38,13 +40,11 @@ export class AppComponent {
   drive = model(false);
   ram = model(false);
   gpu = model(false);
+  priceIncreased = computed(() => this.drive() || this.ram() || this.gpu());
 
   constructor() {
-    /* 
-      Explain for your junior team mate why this bug occurs ...
-    */
     effect(() => {
-      if (this.drive() || this.ram() || this.gpu()) {
+      if (this.priceIncreased()) {
         alert('Price increased!');
       }
     });
