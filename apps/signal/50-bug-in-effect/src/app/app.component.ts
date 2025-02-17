@@ -21,15 +21,15 @@ import { FormsModule } from '@angular/forms';
       <p>Extras:</p>
 
       <div>
-        <input type="checkbox" [(ngModel)]="drive()" />
+        <input type="checkbox" [(ngModel)]="drive" />
         +500 GB drive-space
       </div>
       <div>
-        <input type="checkbox" [(ngModel)]="ram()" />
+        <input type="checkbox" [(ngModel)]="ram" />
         +4 GB RAM
       </div>
       <div>
-        <input type="checkbox" [(ngModel)]="gpu()" />
+        <input type="checkbox" [(ngModel)]="gpu" />
         Better GPU
       </div>
     </section>
