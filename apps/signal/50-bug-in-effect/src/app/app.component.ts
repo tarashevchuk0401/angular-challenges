@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   model,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
   imports: [FormsModule],
   selector: 'app-root',
   template: `
@@ -38,13 +40,11 @@ export class AppComponent {
   drive = model(false);
   ram = model(false);
   gpu = model(false);
+  priceIncreased = computed(() => this.drive() || this.ram() || this.gpu());
 
   constructor() {
-    /* 
-      Explain for your junior team mate why this bug occurs ...
-    */
     effect(() => {
-      if (this.drive() || this.ram() || this.gpu()) {
+      if (this.priceIncreased()) {
         alert('Price increased!');
       }
     });
