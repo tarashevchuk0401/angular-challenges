@@ -4,6 +4,7 @@ import {
   effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './user.service';
@@ -21,7 +22,7 @@ import { UserService } from './user.service';
         [(ngModel)]="action"
         id="actions"
         class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500">
-        <option selected>Please select an action</option>
+        <option selected>Please select an action!!!!</option>
         @for (action of actions; track $index) {
           <option value="{{ action }}">{{ action }}</option>
         }
@@ -33,12 +34,17 @@ import { UserService } from './user.service';
 export class ActionsComponent {
   private userService = inject(UserService);
   protected action = signal(undefined);
+  counter = signal<number>(0);
 
   protected actions = ['Create', 'Read', 'Update', 'Delete'];
 
   constructor() {
     effect(() => {
-      this.userService.log(this.action() ?? 'No action selected');
+      if (this.action()) {
+        untracked(() =>
+          this.userService.log(this.action() ?? 'No action selected'),
+        );
+      }
     });
   }
 }
